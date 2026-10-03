@@ -16,6 +16,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Descomprimir el zip de fuentes (si subiste el zip tal cual)
+        run: |
+          if [ ! -d src/main/java ]; then
+            ZIP=$(ls *.zip 2>/dev/null | sort -V | tail -n 1)
+            if [ -n "$ZIP" ]; then
+              echo "Descomprimiendo $ZIP"
+              unzip -o "$ZIP" -x ".github/*"
+            fi
+          fi
+
       - name: Comprobar que el codigo esta en el repositorio
         run: |
           echo "Archivos en la raiz:"; ls -la
